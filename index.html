@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12B11 - DIAMOND LEGACY 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff3344;
+            --accent: #ffd700;
+            --bg: #000000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --diamond-glow: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Nền Canvas lớp chồng lớp */
+        canvas { position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; }
+        #canvas-bg { z-index: -3; background: radial-gradient(circle at 50% 50%, #1a0505 0%, #000 100%); }
+        #canvas-petals { z-index: -2; }
+        #canvas-fireworks { z-index: -1; }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
+        }
+        .logo { font-weight: 900; letter-spacing: 4px; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
+        }
+
+        .diamond-text {
+            font-size: clamp(5rem, 25vw, 15rem); font-weight: 900;
+            position: relative; line-height: 0.9;
+            background: linear-gradient(to bottom, #fff, #555);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(255, 51, 68, 0.4));
+        }
+
+        /* Hiệu ứng ánh sáng chạy ngang chữ */
+        .diamond-text::after {
+            content: "12B11"; position: absolute; top: 0; left: 0; width: 100%;
+            background: var(--diamond-glow); background-size: 200% 100%;
+            -webkit-background-clip: text; animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .slogan {
+            font-size: 1.2rem; letter-spacing: 6px; color: var(--accent);
+            margin-top: 20px; text-transform: uppercase; font-weight: 300;
+        }
+
+        /* Countdown Master */
+        .countdown { display: flex; gap: 15px; margin-top: 60px; }
+        .box {
+            width: 110px; height: 130px; background: var(--glass);
+            border: 1px solid var(--border); border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+            backdrop-filter: blur(15px); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .box:hover { transform: scale(1.1) translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(255, 51, 68, 0.3); }
+        .num { font-size: 3rem; font-weight: 900; color: #fff; line-height: 1; }
+        .label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-top: 5px; font-weight: 700; }
+
+        /* Nút nhạc Master xoay */
+        #music-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px;
+            border-radius: 50%; background: var(--glass); border: 2px solid var(--primary);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 25px; cursor: pointer; z-index: 1000; backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px var(--primary); transition: 0.3s;
+        }
+        .spinning { animation: rotate 4s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 50px; text-align: center; color: #444; font-size: 0.8rem; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">12B11 LEGACY</div>
+        <div style="font-weight: 300; font-size: 0.9rem;">PHÚ BÀI HIGH SCHOOL</div>
+    </nav>
+
+    <div style="display:none"><div id="player"></div></div>
+    <button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+    <canvas id="canvas-bg"></canvas>
+    <canvas id="canvas-petals"></canvas>
+    <canvas id="canvas-fireworks"></canvas>
+
+    <div class="hero">
+        <h1 class="diamond-text">12B11</h1>
+        <p class="slogan">NHÂN TÀI CÁ BIỆT - ĐOÀN KẾT LÀ NEVER CHẾT</p>
+        
+        <div class="countdown">
+            <div class="box"><span class="num" id="d">00</span><span class="label">Ngày</span></div>
+            <div class="box"><span class="num" id="h">00</span><span class="label">Giờ</span></div>
+            <div class="box"><span class="num" id="m">00</span><span class="label">Phút</span></div>
+            <div class="box"><span class="num" id="s">00</span><span class="label">Giây</span></div>
+        </div>
+    </div>
+
+    <div style="height: 50vh; display: flex; align-items: center; justify-content: center;">
+        <p class="reveal" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; color: #888;">
+            "Thanh xuân là những ngày rực rỡ nhất cùng nhau..."
+        </p>
+    </div>
+
+    <footer>&copy; 2026 TẬP THỂ 12B11 - DESIGNED FOR LEGENDS</footer>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        // --- 1. NHẠC KIM CƯƠNG (SMART UNLOCK) ---
+        let player, isPlaying = false;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0', width: '0', videoId: 'S_7M9U_Z6-I',
+                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'S_7M9U_Z6-I' },
+                events: { 'onReady': (e) => {
+                    const unlock = () => {
+                        if(!isPlaying) {
+                            player.playVideo();
+                            player.unMute();
+                            isPlaying = true;
+                            document.getElementById('music-btn').innerText = '💿';
+                            document.getElementById('music-btn').classList.add('spinning');
+                        }
+                    };
+                    window.addEventListener('scroll', unlock, {once:true});
+                    window.addEventListener('click', unlock, {once:true});
+                    window.addEventListener('touchstart', unlock, {once:true});
+                }}
+            });
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('music-btn');
+            if(isPlaying) { player.pauseVideo(); btn.innerText = '🎵'; btn.classList.remove('spinning'); }
+            else { player.playVideo(); btn.innerText = '💿'; btn.classList.add('spinning'); }
+            isPlaying = !isPlaying;
+        }
+
+        // --- 2. HOA PHƯỢNG RƠI (CANVAS ENGINE) ---
+        const cP = document.getElementById('canvas-petals');
+        const ctxP = cP.getContext('2d');
+        let petals = [];
+        function resize() { cP.width = window.innerWidth; cP.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        class Petal {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * cP.width;
+                this.y = Math.random() * -cP.height;
+                this.size = Math.random() * 3 + 2;
+                this.vY = Math.random() * 1 + 1;
+                this.vX = Math.random() * 2 - 1;
+                this.angle = Math.random() * 360;
+            }
+            draw() {
+                this.y += this.vY; this.x += this.vX;
+                if(this.y > cP.height) this.init();
+                ctxP.save();
+                ctxP.translate(this.x, this.y);
+                ctxP.rotate(this.angle * Math.PI / 180);
+                ctxP.fillStyle = '#ff3344';
+                ctxP.beginPath();
+                ctxP.ellipse(0, 0, this.size, this.size*1.5, 0, 0, Math.PI*2);
+                ctxP.fill();
+                ctxP.restore();
+            }
+        }
+        for(let i=0; i<80; i++) petals.push(new Petal());
+        function anim() { ctxP.clearRect(0,0,cP.width,cP.height); petals.forEach(p => p.draw()); requestAnimationFrame(anim); }
+        anim();
+
+        // --- 3. ĐẾM NGƯỢC ---
+        const target = new Date(2026, 5, 11).getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const d = target - now;
+            document.getElementById('d').innerText = Math.floor(d/(1000*60*60*24)).toString().padStart(2,'0');
+            document.getElementById('h').innerText = Math.floor((d%(1000*60*60*24))/(1000*60*60)).toString().padStart(2,'0');
+            document.getElementById('m').innerText = Math.floor((d%(1000*60*60))/(1000*60)).toString().padStart(2,'0');
+            document.getElementById('s').innerText = Math.floor((d%(1000*60))/1000).toString().padStart(2,'0');
+        }, 1000);
+
+        // --- 4. HIỆU ỨNG HIỆN DẦN ---
+        const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('active')));
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>
