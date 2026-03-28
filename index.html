@@ -3,313 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Góc Nhỏ Tình Yêu Của Chúng Mình ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Vũ Trụ Của Chúng Mình ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --pastel-pink: #ffd6e0;
-            --pastel-pink-dark: #ffb7c5;
-            --pastel-cream: #fff9f0;
-            --text-color: #5d4037;
-            --font-love: 'Pacifico', cursive;
-            --font-main: 'Quicksand', sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-main: #ffffff;
+            --text-accent: #ff9a9e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--pastel-cream);
-            color: var(--text-color);
-            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: #0f0c29; /* Fallback */
+            /* Animated Aurora Background */
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e, #ff9a9e, #fecfef);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            perspective: 1000px; /* Bật chế độ 3D cho toàn trang */
         }
 
-        /* --- BACKGROUND HEART SYSTEM --- */
-        #heart-canvas {
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 3D CANVAS ENGINE --- */
+        #particle-canvas {
             position: fixed;
             top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: -1;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--pastel-cream) 0%, #ffe0e9 100%);
+            pointer-events: none;
         }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 80vh;
+        /* --- WRAPPER 3D TƯƠNG TÁC --- */
+        .scene {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
+            justify-content: center;
+            padding: 50px 20px;
+            transform-style: preserve-3d;
         }
 
-        .main-title {
-            font-family: var(--font-love);
-            font-size: clamp(3rem, 10vw, 6rem);
-            color: #ff6f91;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .couple-names {
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-        }
-
-        .couple-names span { color: #ff6f91; font-weight: 700; }
-
-        /* --- THE VIDEO SECTION --- */
-        .video-container {
-            max-width: 800px;
-            width: 90%;
-            margin: 50px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .video-frame {
-            background: #fff;
-            padding: 15px;
+        /* --- GLASSMORPHISM CARDS (THẺ KÍNH 3D) --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
             border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255,183,197,0.4);
-            border: 3px dashed var(--pastel-pink-dark);
-            transform: rotate(-1deg);
-            transition: 0.3s;
+            box-shadow: var(--glass-shadow);
+            padding: 50px;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
+            transform-style: preserve-3d;
+            margin-bottom: 50px;
         }
 
-        .video-frame:hover { transform: rotate(0deg) scale(1.02); }
+        .glass-panel:hover {
+            box-shadow: 0 15px 50px 0 rgba(255, 154, 158, 0.4);
+        }
+
+        /* Yếu tố nổi bật lên khỏi mặt kính (Floating Elements) */
+        .floating-text {
+            transform: translateZ(50px); /* Đẩy chữ lồi ra không gian 3D */
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            background: -webkit-linear-gradient(#fff, #ff9a9e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(255,154,158,0.5));
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            transform: translateZ(30px);
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* --- VIDEO CONTAINER 3D --- */
+        .video-wrapper {
+            transform: translateZ(60px); /* Khung video lồi hẳn lên */
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-top: 40px;
+            position: relative;
+        }
 
         video {
             width: 100%;
             height: auto;
-            border-radius: 20px;
             display: block;
+            object-fit: cover;
         }
 
-        /* --- TYPEWRITER & QUOTES --- */
-        .quote-wrapper {
-            background: rgba(255, 255, 255, 0.7);
+        /* --- TYPEWRITER KÍNH --- */
+        .quote-panel {
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 30px;
-            max-width: 700px;
-            width: 90%;
-            border: 1px solid rgba(255,214,224,0.5);
-            margin: 50px 0;
-            text-align: center;
-            position: relative;
-        }
-        
-        .quote-wrapper::before {
-            content: '“';
-            font-family: var(--font-love);
-            font-size: 8rem;
-            color: #ffb7c5;
-            position: absolute;
-            top: -20px; left: 20px;
-            opacity: 0.3;
-        }
-
-        #typewriter {
-            font-size: 1.5rem;
+            border-left: 5px solid #ff9a9e;
+            padding: 30px;
+            border-radius: 15px;
+            transform: translateZ(40px);
+            margin-top: 40px;
             font-style: italic;
-            color: #8d6e63;
-            min-height: 80px;
+            font-size: 1.2rem;
             line-height: 1.8;
+            min-height: 100px;
         }
 
-        /* --- THE "AUTOPLAY NOTICE" (Ninja style) --- */
-        #start-notice {
+        /* --- MÀN HÌNH KHỞI ĐỘNG (NINJA UNLOCKER) --- */
+        #intro-screen {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 249, 240, 0.95);
-            z-index: 10000;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #0f0c29;
+            z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: 0.5s;
-        }
-        
-        #start-notice .heart-icon {
-            font-size: 8rem;
-            color: #ff6f91;
-            animation: pulse 1.5s infinite;
-        }
-        
-        #start-notice p {
-            font-family: var(--font-love);
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-top: 20px;
+            transition: opacity 1s ease, visibility 1s;
         }
 
-        /* --- ANIMATIONS --- */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        .fingerprint-icon {
+            font-size: 4rem;
+            animation: pulse-glow 2s infinite;
+            color: #ff9a9e;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 50px;
-            text-align: center;
-            color: #bcaaa4;
-            font-size: 0.9rem;
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 10px rgba(255,154,158,0.2)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 40px rgba(255,154,158,1)); transform: scale(1.1); }
+            100% { filter: drop-shadow(0 0 10px rgba(255,154,158,0.2)); transform: scale(1); }
         }
 
     </style>
 </head>
 <body>
 
-    <div id="start-notice">
-        <div class="heart-icon">❤️</div>
-        <p>Gõ cửa trái tim...</p>
+    <div id="intro-screen">
+        <div class="fingerprint-icon">✨</div>
+        <p style="margin-top: 20px; font-family: 'Montserrat'; letter-spacing: 2px; color: #fff;">CHẠM ĐỂ MỞ KHÓA KÝ ỨC</p>
     </div>
 
-    <canvas id="heart-canvas"></canvas>
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="hero">
-        <h1 class="main-title">Tình Yêu</h1>
-        <p class="couple-names">💕 <span>Hoang Nhat Huyy</span> & <span>Tran My Linhh</span></p>
-        <p style="font-style: italic; opacity: 0.7;"> 3 Năm - 1 Đời Thương Nhớ</p>
-    </div>
+    <div class="scene">
+        
+        <div class="glass-panel" id="main-card">
+            <h1 class="floating-text">Thanh Xuân Có Em</h1>
+            <p class="subtitle">[Tên Bạn] & [Tên Bạn Gái]</p>
+            
+            <div class="video-wrapper">
+                <video id="love-video" controls loop playsinline>
+                    <source src="tinh-yeu.mp4" type="video/mp4">
+                    Trình duyệt không hỗ trợ.
+                </video>
+            </div>
 
-    <div class="video-container">
-        <div class="video-frame">
-            <video id="love-video" controls loop playsinline>
-                <source src="tinh-yeu.mp4" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ xem video này.
-            </video>
+            <div class="quote-panel" id="typewriter"></div>
         </div>
-    </div>
 
-    <div class="quote-wrapper">
-        <div id="typewriter"></div>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Gửi tặng Mỹ Linhh - Người con gái tuyệt vời nhất.</p>
-        <p style="margin-top: 10px;">Created with ❤️ by Nhật Huyy</p>
-    </footer>
 
     <script>
-        // --- HEART SYSTEM (HIỆU ỨNG TRÁI TIM BAY) ---
-        const canvas = document.getElementById('heart-canvas');
+        // ==========================================
+        // 1. ENGINE HẠT ÁNH SÁNG CÓ ĐỘ SÂU (DEPTH PARTICLES)
+        // ==========================================
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height, hearts = [];
+        let width, height, particles = [];
 
-        function init() {
+        function initCanvas() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            hearts = [];
-            for(let i=0; i<50; i++) hearts.push(new Heart());
+            particles = [];
+            // Tạo 100 hạt với các độ sâu khác nhau (z-index ảo)
+            for(let i=0; i<100; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    z: Math.random() * 2 + 0.1, // Độ sâu: càng lớn càng gần
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
         }
 
-        class Heart {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 15 + 5;
-                this.vY = Math.random() * 0.8 + 0.2;
-                this.vX = Math.random() * 0.5 - 0.25;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                this.angle = Math.random() * Math.PI * 2;
-                this.spin = Math.random() * 0.02 - 0.01;
-            }
-            update() {
-                this.y -= this.vY;
-                this.x += this.vX;
-                this.angle += this.spin;
-                if(this.y < -50) { this.y = height + 50; this.x = Math.random()*width; }
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = '#ffb7c5';
-                
-                // Vẽ hình trái tim bằng Bezier Curve
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                // Hạt ở gần (z lớn) di chuyển nhanh hơn hạt ở xa
+                p.x += p.vx * p.z;
+                p.y -= p.vy * p.z + (0.5 * p.z); // Bay lên từ từ
+
+                if(p.y < -10) p.y = height + 10;
+                if(p.x < -10) p.x = width + 10;
+                if(p.x > width + 10) p.x = -10;
+
+                // Hạt ở gần thì to và sáng hơn, hạt ở xa thì mờ (Blur effect)
+                const opacity = Math.min(p.z * 0.3, 0.8);
                 ctx.beginPath();
-                ctx.moveTo(0, this.size / 4);
-                ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, this.size / 4);
-                ctx.bezierCurveTo(-this.size / 2, this.size / 2, 0, this.size * 3 / 4, 0, this.size);
-                ctx.bezierCurveTo(0, this.size * 3 / 4, this.size / 2, this.size / 2, this.size / 2, this.size / 4);
-                ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, this.size / 4);
+                ctx.arc(p.x, p.y, p.radius * p.z, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
                 ctx.fill();
-                ctx.restore();
-            }
+            });
+            requestAnimationFrame(animateCanvas);
         }
+        window.addEventListener('resize', initCanvas);
+        initCanvas(); animateCanvas();
 
-        function render() {
-            ctx.clearRect(0,0,width,height);
-            hearts.forEach(h => { h.update(); h.draw(); });
-            requestAnimationFrame(render);
-        }
+        // ==========================================
+        // 2. HIỆU ỨNG NGHIÊNG 3D THEO CHUỘT (MOUSE PARALLAX)
+        // ==========================================
+        const card = document.getElementById('main-card');
+        const scene = document.querySelector('.scene');
 
-        window.addEventListener('resize', init);
-        init(); render();
+        // Áp dụng cho máy tính (dùng chuột)
+        scene.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 40; // Chia số to để nghiêng nhẹ nhàng tinh tế
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
 
-        // --- TYPEWRITER SYSTEM (LỜI NHẮN TÌNH YÊU) ---
+        // Hồi phục lại vị trí cũ khi chuột đi ra ngoài
+        scene.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            card.style.transition = 'transform 0.5s ease';
+        });
+
+        scene.addEventListener('mouseenter', () => {
+            card.style.transition = 'none'; // Tắt transition để chuột kéo mượt
+        });
+
+        // ==========================================
+        // 3. TYPEWRITER (GÕ CHỮ TỰ ĐỘNG)
+        // ==========================================
         const quotes = [
-            "Gặp em trong những năm tháng đẹp nhất của tuổi trẻ, đó là may mắn của anh.💖",
-           "Cảm ơn vì đã cùng anh viết nên câu chuyện thanh xuân tuyệt vời nhất. Yêu em! ❤️" ,
-            "Em không phải là người đầu tiên anh thích, nhưng là người duy nhất anh muốn bên cạnh.💖",
+            "Anh không giỏi văn, cũng chẳng biết làm thơ. Anh chỉ dùng vài dòng code để nói rằng: Anh yêu em.",
+            "Thế giới 3D này có thể lập trình được, nhưng tình cảm anh dành cho em là vô hạn và không có thuật toán nào tính nổi.",
+            "Cảm ơn em - Bức tranh tuyệt đẹp nhất trong thanh xuân của anh!"
         ];
-        
         let qIdx = 0, cIdx = 0, isErasing = false;
         const typeEl = document.getElementById('typewriter');
 
         function typeEffect() {
-            if (!typeEl) return;
             const current = quotes[qIdx];
             if(!isErasing) {
-                typeEl.innerText = current.substring(0, cIdx++);
-                if(cIdx > current.length) { isErasing = true; setTimeout(typeEffect, 3000); }
-                else setTimeout(typeEffect, 60);
+                typeEl.innerHTML = current.substring(0, cIdx++) + "<span style='border-right: 2px solid #ff9a9e; padding-right: 2px; animation: blink 0.7s infinite;'></span>";
+                if(cIdx > current.length) { isErasing = true; setTimeout(typeEffect, 4000); }
+                else setTimeout(typeEffect, 50);
             } else {
-                typeEl.innerText = current.substring(0, cIdx--);
-                if(cIdx < 0) { isErasing = false; qIdx = (qIdx+1)%quotes.length; setTimeout(typeEffect, 800); }
-                else setTimeout(typeEffect, 40);
+                typeEl.innerHTML = current.substring(0, cIdx--) + "<span style='border-right: 2px solid #ff9a9e; padding-right: 2px;'></span>";
+                if(cIdx < 0) { isErasing = false; qIdx = (qIdx+1)%quotes.length; setTimeout(typeEffect, 500); }
+                else setTimeout(typeEffect, 20);
             }
         }
         typeEffect();
 
-        // --- NINJA STARTER (KÍCH HOẠT KHI CHẠM) ---
-        const startNotice = document.getElementById('start-notice');
-        const loveVideo = document.getElementById('love-video');
+        // ==========================================
+        // 4. HỆ THỐNG MỞ KHÓA KÝ ỨC (NINJA PLAY VIDEO)
+        // ==========================================
+        const introScreen = document.getElementById('intro-screen');
+        const video = document.getElementById('love-video');
 
-        function startDream() {
-            // Tự động phát video
-            loveVideo.play().catch(e => console.log("Video đợi em chạm vào..."));
+        introScreen.addEventListener('click', () => {
+            // Phát video ngay lập tức
+            video.play().catch(err => console.log("Video đợi tương tác thêm..."));
             
-            // Ẩn lớp phủ mờ dần
-            startNotice.style.opacity = '0';
+            // Làm mờ và tắt màn hình chờ
+            introScreen.style.opacity = '0';
             setTimeout(() => {
-                startNotice.style.display = 'none';
-            }, 500);
-        }
-
-        // Chạm vào bất kỳ đâu để bắt đầu giấc mơ tình yêu
-        startNotice.addEventListener('click', startDream);
-        startNotice.addEventListener('touchstart', startDream);
+                introScreen.style.visibility = 'hidden';
+            }, 1000);
+        });
 
     </script>
 </body>
